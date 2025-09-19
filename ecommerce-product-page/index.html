@@ -2,43 +2,873 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
   <title>Frontend Mentor | E-commerce product page</title>
-
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
   <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Kumbh Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: hsl(219, 9%, 45%);
+      background: hsl(0, 0%, 100%);
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid hsl(220, 14%, 75%);
+      position: relative;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: hsl(220, 13%, 13%);
+      text-decoration: none;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-menu a {
+      color: hsl(219, 9%, 45%);
+      text-decoration: none;
+      padding: 1rem 0;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .nav-menu a:hover {
+      color: hsl(220, 13%, 13%);
+      border-bottom-color: hsl(26, 100%, 55%);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .cart-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      padding: 0.5rem;
+    }
+
+    .cart-btn:hover svg {
+      fill: hsl(220, 13%, 13%);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: hsl(26, 100%, 55%);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+
+    .avatar:hover {
+      border-color: hsl(26, 100%, 55%);
+    }
+
+    /* Mobile menu */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* Main Content */
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    /* Product Images */
+    .product-images {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .main-image {
+      border-radius: 15px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .main-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .main-image:hover img {
+      transform: scale(1.05);
+    }
+
+    .thumbnail-images {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .thumbnail {
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .thumbnail:hover {
+      border-color: hsl(26, 100%, 55%);
+    }
+
+    .thumbnail.active {
+      border-color: hsl(26, 100%, 55%);
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+
+    .thumbnail:hover img,
+    .thumbnail.active img {
+      opacity: 0.5;
+    }
+
+    /* Product Info */
+    .product-info {
+      max-width: 450px;
+    }
+
+    .company-name {
+      color: hsl(26, 100%, 55%);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+
+    .product-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: hsl(220, 13%, 13%);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .product-description {
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .price-section {
+      margin-bottom: 2rem;
+    }
+
+    .current-price {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: hsl(220, 13%, 13%);
+    }
+
+    .discount {
+      background: hsl(25, 100%, 94%);
+      color: hsl(26, 100%, 55%);
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .original-price {
+      font-weight: 700;
+      text-decoration: line-through;
+      color: hsl(220, 14%, 75%);
+    }
+
+    /* Add to Cart Section */
+    .add-to-cart-section {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      background: hsl(223, 64%, 98%);
+      border-radius: 10px;
+      padding: 0.75rem;
+      gap: 1.5rem;
+      min-width: 150px;
+      justify-content: space-between;
+    }
+
+    .quantity-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: hsl(26, 100%, 55%);
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: 0.25rem 0.5rem;
+      transition: opacity 0.3s ease;
+    }
+
+    .quantity-btn:hover {
+      opacity: 0.7;
+    }
+
+    .quantity {
+      font-weight: 700;
+      color: hsl(220, 13%, 13%);
+    }
+
+    .add-to-cart-btn {
+      background: hsl(26, 100%, 55%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 2rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-to-cart-btn:hover {
+      background: hsl(26, 100%, 65%);
+    }
+
+    /* Cart Dropdown */
+    .cart-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 20px 50px -20px rgba(29, 32, 38, 0.503143);
+      width: 360px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .cart-dropdown.show {
+      display: block;
+    }
+
+    .cart-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid hsl(220, 14%, 75%);
+      font-weight: 700;
+      color: hsl(220, 13%, 13%);
+    }
+
+    .cart-content {
+      padding: 1.5rem;
+    }
+
+    .cart-empty {
+      text-align: center;
+      color: hsl(219, 9%, 45%);
+      font-weight: 700;
+      padding: 2rem;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cart-item-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .cart-item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cart-item-details {
+      flex: 1;
+    }
+
+    .cart-item-title {
+      color: hsl(219, 9%, 45%);
+      margin-bottom: 0.25rem;
+    }
+
+    .cart-item-price {
+      color: hsl(219, 9%, 45%);
+    }
+
+    .total-price {
+      font-weight: 700;
+      color: hsl(220, 13%, 13%);
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.25rem;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .delete-btn:hover {
+      opacity: 1;
+    }
+
+    .checkout-btn {
+      background: hsl(26, 100%, 55%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    .checkout-btn:hover {
+      background: hsl(26, 100%, 65%);
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .lightbox.show {
+      display: flex;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 550px;
+      width: 90%;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 1.5rem;
+      padding: 0.5rem;
+    }
+
+    .lightbox-close:hover {
+      color: hsl(26, 100%, 55%);
+    }
+
+    .lightbox-image {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .lightbox-nav:hover {
+      opacity: 0.7;
+    }
+
+    .lightbox-prev {
+      left: -25px;
+    }
+
+    .lightbox-next {
+      right: -25px;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      .header {
+        padding: 1rem;
+      }
+
+      .nav-menu {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .main-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0;
+      }
+
+      .product-images {
+        order: -1;
+      }
+
+      .main-image {
+        border-radius: 0;
+      }
+
+      .thumbnail-images {
+        display: none;
+      }
+
+      .product-info {
+        padding: 2rem 1rem;
+        max-width: none;
+      }
+
+      .product-title {
+        font-size: 2rem;
+      }
+
+      .add-to-cart-section {
+        flex-direction: column;
+      }
+
+      .quantity-selector {
+        justify-content: space-between;
+        min-width: 100%;
+      }
+
+      .cart-dropdown {
+        width: calc(100vw - 2rem);
+        right: 1rem;
+        left: 1rem;
+      }
+
+      .lightbox-nav {
+        display: none;
+      }
+    }
+
+    .attribution {
+      font-size: 11px;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .attribution a {
+      color: hsl(228, 45%, 44%);
+    }
   </style>
 </head>
 <body>
+  <!-- Header -->
+  <header class="header">
+    <div class="nav-left">
+      <button class="mobile-menu-btn">
+        <svg width="16" height="15" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 12v3H0v-3h16Zm0-6v3H0V6h16Zm0-6v3H0V0h16Z" fill="#69707D" fill-rule="evenodd"/>
+        </svg>
+      </button>
+      <a href="#" class="logo">sneakers</a>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#">Collections</a></li>
+          <li><a href="#">Men</a></li>
+          <li><a href="#">Women</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <button class="cart-btn" id="cartBtn">
+        <svg width="22" height="20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.925 3.641H3.863L3.61.816A.896.896 0 0 0 2.717 0H.897a.896.896 0 1 0 0 1.792h1l1.031 11.483c.073.828.52 1.726 1.291 2.336C2.83 17.385 4.099 20 6.359 20c1.875 0 3.197-1.87 2.554-3.642h4.905c-.642 1.77.677 3.642 2.555 3.642a2.72 2.72 0 0 0 2.717-2.717 2.72 2.72 0 0 0-2.717-2.717H6.365c-.681 0-1.274-.41-1.53-1.009l14.321-.842a.896.896 0 0 0 .817-.677l1.821-7.283a.897.897 0 0 0-.87-1.114ZM6.358 18.208a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm10.015 0a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm2.021-7.243-13.8.81-.57-6.341h15.753l-1.383 5.53Z" fill="#69707D" fill-rule="nonzero"/>
+        </svg>
+        <span class="cart-count" id="cartCount" style="display: none;">0</span>
+      </button>
+      <img src="./images/image-avatar.png" alt="Avatar" class="avatar">
+      
+      <!-- Cart Dropdown -->
+      <div class="cart-dropdown" id="cartDropdown">
+        <div class="cart-header">Cart</div>
+        <div class="cart-content" id="cartContent">
+          <div class="cart-empty" id="cartEmpty">Your cart is empty.</div>
+        </div>
+      </div>
+    </div>
+  </header>
 
-  Collections
-  Men
-  Women
-  About
-  Contact
+  <!-- Main Content -->
+  <main class="main-container">
+    <!-- Product Images -->
+    <div class="product-images">
+      <div class="main-image" id="mainImageContainer">
+        <img src="./images/image-product-1.jpg" alt="Product" id="mainImage">
+      </div>
+      <div class="thumbnail-images">
+        <div class="thumbnail active" data-image="./images/image-product-1.jpg">
+          <img src="./images/image-product-1-thumbnail.jpg" alt="Thumbnail 1">
+        </div>
+        <div class="thumbnail" data-image="./images/image-product-2.jpg">
+          <img src="./images/image-product-2-thumbnail.jpg" alt="Thumbnail 2">
+        </div>
+        <div class="thumbnail" data-image="./images/image-product-3.jpg">
+          <img src="./images/image-product-3-thumbnail.jpg" alt="Thumbnail 3">
+        </div>
+        <div class="thumbnail" data-image="./images/image-product-4.jpg">
+          <img src="./images/image-product-4-thumbnail.jpg" alt="Thumbnail 4">
+        </div>
+      </div>
+    </div>
 
-  Sneaker Company
+    <!-- Product Info -->
+    <div class="product-info">
+      <div class="company-name">Sneaker Company</div>
+      <h1 class="product-title">Fall Limited Edition Sneakers</h1>
+      <p class="product-description">
+        These low-profile sneakers are your perfect casual wear companion. Featuring a 
+        durable rubber outer sole, they'll withstand everything the weather can offer.
+      </p>
+      
+      <div class="price-section">
+        <div class="current-price">
+          <span class="price">$125.00</span>
+          <span class="discount">50%</span>
+        </div>
+        <div class="original-price">$250.00</div>
+      </div>
 
-  Fall Limited Edition Sneakers
+      <div class="add-to-cart-section">
+        <div class="quantity-selector">
+          <button class="quantity-btn" id="decreaseBtn">-</button>
+          <span class="quantity" id="quantity">0</span>
+          <button class="quantity-btn" id="increaseBtn">+</button>
+        </div>
+        <button class="add-to-cart-btn" id="addToCartBtn">
+          <svg width="22" height="20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.925 3.641H3.863L3.61.816A.896.896 0 0 0 2.717 0H.897a.896.896 0 1 0 0 1.792h1l1.031 11.483c.073.828.52 1.726 1.291 2.336C2.83 17.385 4.099 20 6.359 20c1.875 0 3.197-1.87 2.554-3.642h4.905c-.642 1.77.677 3.642 2.555 3.642a2.72 2.72 0 0 0 2.717-2.717 2.72 2.72 0 0 0-2.717-2.717H6.365c-.681 0-1.274-.41-1.53-1.009l14.321-.842a.896.896 0 0 0 .817-.677l1.821-7.283a.897.897 0 0 0-.87-1.114ZM6.358 18.208a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm10.015 0a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm2.021-7.243-13.8.81-.57-6.341h15.753l-1.383 5.53Z" fill="currentColor" fill-rule="nonzero"/>
+          </svg>
+          Add to cart
+        </button>
+      </div>
+    </div>
+  </main>
 
-  These low-profile sneakers are your perfect casual wear companion. Featuring a 
-  durable rubber outer sole, they’ll withstand everything the weather can offer.
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose">&times;</button>
+      <button class="lightbox-nav lightbox-prev" id="lightboxPrev">
+        <svg width="12" height="18" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 1 3 9l8 8" stroke="#1D2026" stroke-width="3" fill="none" fill-rule="evenodd"/>
+        </svg>
+      </button>
+      <img src="" alt="Product" class="lightbox-image" id="lightboxImage">
+      <button class="lightbox-nav lightbox-next" id="lightboxNext">
+        <svg width="13" height="18" xmlns="http://www.w3.org/2000/svg">
+          <path d="m2 1 8 8-8 8" stroke="#1D2026" stroke-width="3" fill="none" fill-rule="evenodd"/>
+        </svg>
+      </button>
+      <div class="thumbnail-images">
+        <div class="thumbnail active" data-image="./images/image-product-1.jpg">
+          <img src="./images/image-product-1-thumbnail.jpg" alt="Thumbnail 1">
+        </div>
+        <div class="thumbnail" data-image="./images/image-product-2.jpg">
+          <img src="./images/image-product-2-thumbnail.jpg" alt="Thumbnail 2">
+        </div>
+        <div class="thumbnail" data-image="./images/image-product-3.jpg">
+          <img src="./images/image-product-3-thumbnail.jpg" alt="Thumbnail 3">
+        </div>
+        <div class="thumbnail" data-image="./images/image-product-4.jpg">
+          <img src="./images/image-product-4-thumbnail.jpg" alt="Thumbnail 4">
+        </div>
+      </div>
+    </div>
+  </div>
 
-  $125.00
-  50%
-  $250.00
-
-  0
-  Add to cart
-  
   <div class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
+    Coded by <a href="https://www.tnttastisch.de/">TntTastisch</a>.
   </div>
-</body>
-</html>
+
+  <script>
+    // State management
+    let cart = [];
+    let currentQuantity = 0;
+    let currentImageIndex = 0;
+    
+    const images = [
+      "./images/image-product-1.jpg",
+      "./images/image-product-2.jpg",
+      "./images/image-product-3.jpg",
+      "./images/image-product-4.jpg"
+    ];
+
+    // DOM elements
+    const quantityEl = document.getElementById('quantity');
+    const increaseBtn = document.getElementById('increaseBtn');
+    const decreaseBtn = document.getElementById('decreaseBtn');
+    const addToCartBtn = document.getElementById('addToCartBtn');
+    const cartBtn = document.getElementById('cartBtn');
+    const cartCount = document.getElementById('cartCount');
+    const cartDropdown = document.getElementById('cartDropdown');
+    const cartContent = document.getElementById('cartContent');
+    const cartEmpty = document.getElementById('cartEmpty');
+    const mainImage = document.getElementById('mainImage');
+    const mainImageContainer = document.getElementById('mainImageContainer');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    const lightboxThumbnails = document.querySelectorAll('.lightbox .thumbnail');
+
+    // Quantity controls
+    increaseBtn.addEventListener('click', () => {
+      currentQuantity++;
+      quantityEl.textContent = currentQuantity;
+    });
+
+    decreaseBtn.addEventListener('click', () => {
+      if (currentQuantity > 0) {
+        currentQuantity--;
+        quantityEl.textContent = currentQuantity;
+      }
+    });
+
+    // Add to cart
+    addToCartBtn.addEventListener('click', () => {
+      if (currentQuantity > 0) {
+        const existingItem = cart.find(item => item.id === 'sneakers');
+        if (existingItem) {
+          existingItem.quantity += currentQuantity;
+        } else {
+          cart.push({
+            id: 'sneakers',
+            name: 'Fall Limited Edition Sneakers',
+            price: 125,
+            quantity: currentQuantity,
+            image: images[0]
+          });
+        }
+        updateCartUI();
+        currentQuantity = 0;
+        quantityEl.textContent = currentQuantity;
+      }
+    });
+
+    // Cart functionality
+    cartBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      cartDropdown.classList.toggle('show');
+    });
+
+    // Close cart when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!cartDropdown.contains(e.target) && !cartBtn.contains(e.target)) {
+        cartDropdown.classList.remove('show');
+      }
+    });
+
+    function updateCartUI() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      
+      if (totalItems > 0) {
+        cartCount.style.display = 'flex';
+        cartCount.textContent = totalItems;
+        cartEmpty.style.display = 'none';
+        
+        cartContent.innerHTML = cart.map(item => `
+          <div class="cart-item">
+            <div class="cart-item-image">
+              <img src="${item.image}" alt="${item.name}">
+            </div>
+            <div class="cart-item-details">
+              <div class="cart-item-title">${item.name}</div>
+              <div class="cart-item-price">
+                ${item.price.toFixed(2)} x ${item.quantity} 
+                <span class="total-price">${(item.price * item.quantity).toFixed(2)}</span>
+              </div>
+            </div>
+            <button class="delete-btn" onclick="removeFromCart('${item.id}')">
+              <svg width="14" height="16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs><path d="M0 2.625V1.75C0 1.334.334 1 .75 1h3.5l.294-.584A.741.741 0 0 1 5.213 0h3.571a.75.75 0 0 1 .672.416L9.75 1h3.5c.416 0 .75.334.75.75v.875a.376.376 0 0 1-.375.375H.375A.376.376 0 0 1 0 2.625Zm13.5 1.313v10.5c0 .375-.375.75-.75.75h-11.5c-.375 0-.75-.375-.75-.75V3.938a.376.376 0 0 1 .375-.375h11.5a.376.376 0 0 1 .375.375ZM4.5 6.931v6.25c0 .375.25.625.625.625s.625-.25.625-.625v-6.25C5.75 6.556 5.5 6.306 5.125 6.306s-.625.25-.625.625Zm3.75 0v6.25c0 .375.25.625.625.625s.625-.25.625-.625v-6.25c0-.375-.25-.625-.625-.625s-.625.25-.625.625Z" id="a"/></defs>
+                <use fill="#C3CAD9" fill-rule="nonzero" xlink:href="#a"/>
+              </svg>
+            </button>
+          </div>
+        `).join('') + '<button class="checkout-btn">Checkout</button>';
+      } else {
+        cartCount.style.display = 'none';
+        cartContent.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
+      }
+    }
+
+    function removeFromCart(itemId) {
+      cart = cart.filter(item => item.id !== itemId);
+      updateCartUI();
+    }
+
+    // Image switching
+    thumbnails.forEach((thumbnail, index) => {
+      thumbnail.addEventListener('click', () => {
+        // Update main image
+        const imageUrl = thumbnail.dataset.image;
+        mainImage.src = imageUrl;
+        currentImageIndex = index;
+        
+        // Update active thumbnail
+        thumbnails.forEach(thumb => thumb.classList.remove('active'));
+        thumbnail.classList.add('active');
+      });
+    });
+
+    // Lightbox functionality
+    mainImageContainer.addEventListener('click', () => {
+      lightbox.classList.add('show');
+      lightboxImage.src = mainImage.src;
+      updateLightboxThumbnails();
+    });
+
+    lightboxClose.addEventListener('click', () => {
+      lightbox.classList.remove('show');
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove('show');
+      }
+    });
+
+    lightboxPrev.addEventListener('click', () => {
+      currentImageIndex = currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1;
+      lightboxImage.src = images[currentImageIndex];
+      updateLightboxThumbnails();
+    });
+
+    lightboxNext.addEventListener('click', () => {
+      currentImageIndex = currentImageIndex === images.length - 1 ? 0 : currentImageIndex + 1;
+      lightboxImage.src = images[currentImageIndex];
+      updateLightboxThumbnails();
+    });
+
+    // Lightbox thumbnail clicks
+    lightboxThumbnails.forEach((thumbnail, index) => {
+      thumbnail.addEventListener('click', () => {
+        currentImageIndex = index;
+        lightboxImage.src = images[index];
+        updateLightboxThumbnails();
+      });
+    });
+
+    function updateLightboxThumbnails() {
+      lightboxThumbnails.forEach((thumb, index) => {
+        thumb.classList.toggle('active', index === currentImageIndex);
+      });
+    }
+
+    // Keyboard navigation for lightbox
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('show')) return;
+      
+      if (e.key === 'Escape') {
+        lightbox.classList.remove('show');
+      } else if (e.key === 'ArrowLeft') {
+        lightboxPrev.click();
+      } else if (e.key === 'ArrowRight') {
+        lightboxNext.click();
+      }
+    });
